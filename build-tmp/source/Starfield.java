@@ -15,34 +15,49 @@ import java.io.IOException;
 public class Starfield extends PApplet {
 
 Particle [] myParticle = new Particle[50]; //your code here
+
 public void setup()
 {
 	background(0);
 	size(500,500);
-	for (int nI = 1; nI < 50; nI++) 
+	for (int nI = 0; nI < 50; nI++) 
 	{
-		myParticle[nI] = new NormalParticle(250,250);
+		if(nI == 0){myParticle[0] = new OddballParticle(250,250);}
+		else if(nI == 1){myParticle[1] = new JumboParticle(250,250);}
+		else{myParticle[nI] = new NormalParticle(250,250);}
+		
+		
 	}
-	myParticle[0] = new OddballParticle(250,250);
+	
+	
 }
 public void draw()
 {
-	for( int nI = 0; nI < 50 ; nI++)
+	for( int nI = 0; nI <50 ; nI++)
 	{
 		myParticle[nI].move();
 		myParticle[nI].show();
-	}//your code here
+	}
+	//your code here
 }
 class NormalParticle implements Particle
 {
-	int r;
+	int r,g,b;
 	double myX, myY;
 	double dSpeed, dDirection;
 	NormalParticle(int x, int y)
 	{
+		b = ((int)(Math.random()*266));
+		g = ((int)(Math.random()*266));
 		r = ((int)(Math.random()*266));
 		myX = x;
 		myY = y;
+		dSpeed = Math.random()*10;
+		dDirection = Math.PI*2*Math.random();	
+			
+	}
+	NormalParticle()
+	{
 		dSpeed = Math.random()*10;
 		dDirection = Math.PI*2*Math.random();	
 			
@@ -54,10 +69,29 @@ class NormalParticle implements Particle
 	}
 	public void show() 
 	{
-		fill(r,r,r);
+		fill(r,g,b);
 		ellipse((int)myX, (int)myY, 20, 20);
 	}
 }
+
+class JumboParticle extends NormalParticle
+{
+	JumboParticle(int x, int y)
+	{
+		myX = x;
+		myY = y;
+	}
+
+	
+	public void show()
+	{
+		fill(255, 0, 0);
+		ellipse((int)myX, (int)myY, 55, 55);
+	}
+	
+}
+
+
 interface Particle
 {
 	 public void move();
@@ -83,8 +117,6 @@ class OddballParticle implements Particle
 		fill(22,3,144);
 		rect((int)myX, (int)myY, 40, 40);
 	}
-
-
 }
 
 
